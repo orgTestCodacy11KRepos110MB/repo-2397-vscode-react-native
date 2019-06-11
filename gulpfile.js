@@ -20,6 +20,7 @@ const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 const nls = require("vscode-nls-dev");
 const libtslint = require("tslint");
 const tslint = require("gulp-tslint");
+const webpack = require('webpack-stream');
 
 const copyright = GulpExtras.checkCopyright;
 const imports = GulpExtras.checkImports;
@@ -154,14 +155,24 @@ gulp.task("tslint", () => {
 gulp.task("build", gulp.series("check-imports", "check-copyright", "tslint", function runBuild(done) {
     build(true, true)
         .once("finish", () => {
-            done();
+            gulp.src("src/extension/rn-extension.js")
+                .pipe(webpack(require("./webpack.config.js")))
+                .pipe(gulp.dest('src/extension'))
+                .once("end", () => {
+                    done();
+                });
         });
 }));
 
 gulp.task("build-dev", gulp.series("check-imports", "check-copyright", function runBuild(done) {
     build(false, false)
         .once("finish", () => {
-            done();
+            gulp.src("src/extension/rn-extension.js")
+                .pipe(webpack(require("./webpack.config.js")))
+                .pipe(gulp.dest('src/extension'))
+                .once("end", () => {
+                    done();
+                });
         });
 }));
 

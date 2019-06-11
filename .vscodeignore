@@ -20,3 +20,6 @@ release/**
 .npmignore
 npm-shrinkwrap.json
 SmokeTestLogs
+!node_modules/vscode
+!node_modules/xdl
+
