@@ -29,7 +29,7 @@ const config = {
   },
   resolve: {
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    extensions: ['.js', '.json']
+    extensions: ['.js']
   },
   node: {
     __dirname: false

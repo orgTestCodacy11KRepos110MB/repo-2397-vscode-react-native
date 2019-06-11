@@ -19,5 +19,14 @@ release/**
 .npmignore
 npm-shrinkwrap.json
 SmokeTestLogs
+webpack.config.js
+node_modules
+!node_modules/vscode
+!node_modules/ws
+!node_modules/vscode-extension-telemetry
+!node_modules/vscode-nls
+!node_modules/safe-buffer
+!node_modules/applicationinsights
+!node_modules/winreg
 i18n
 

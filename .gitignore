@@ -10,7 +10,7 @@ test/*.xml
 
 # Compiled files
 src/**/*.js
-dist/**/*.js
+dist/**/*
 !src/extension/appcenter/lib/**/*.js
 test/**/*.js
 SmokeTestLogs
