@@ -42,7 +42,7 @@
 		"onCommand:reactNative.reloadApp",
 		"onCommand:reactNative.runInspector"
 	],
-	"main": "./dist/rn-extension",
+	"main": "./dist/main",
 	"contributes": {
 		"commands": [
 			{

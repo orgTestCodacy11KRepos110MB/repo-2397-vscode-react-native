@@ -28,5 +28,6 @@ node_modules
 !node_modules/safe-buffer
 !node_modules/applicationinsights
 !node_modules/winreg
+!node_modules/flatten-source-map
 i18n
 
