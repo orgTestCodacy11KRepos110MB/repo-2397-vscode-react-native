@@ -134,7 +134,8 @@ gulp.task("check-copyright", () => {
         "!SampleApplication/**",
         "!test/resources/sampleReactNative022Project/**/*.js",
         "!test/smoke/node_modules/**",
-        "!test/smoke/resources/**"
+        "!test/smoke/resources/**",
+        "!dist/*.js",
     ])
         .pipe(copyright());
 });
@@ -157,7 +158,7 @@ gulp.task("build", gulp.series("check-imports", "check-copyright", "tslint", fun
         .once("finish", () => {
             gulp.src("src/extension/rn-extension.js")
                 .pipe(webpack(require("./webpack.config.js")))
-                .pipe(gulp.dest('src/extension'))
+                .pipe(gulp.dest('dist/'))
                 .once("end", () => {
                     done();
                 });
@@ -169,7 +170,7 @@ gulp.task("build-dev", gulp.series("check-imports", "check-copyright", function 
         .once("finish", () => {
             gulp.src("src/extension/rn-extension.js")
                 .pipe(webpack(require("./webpack.config.js")))
-                .pipe(gulp.dest('src/extension'))
+                .pipe(gulp.dest('dist/'))
                 .once("end", () => {
                     done();
                 });
@@ -196,6 +197,7 @@ gulp.task("clean", () => {
         "nls.*.json",
         "!test/smoke/resources/ReactNativeSample/App.js",
         "!test/smoke/resources/ExpoSample/App.js",
+        "dist",
     ]
     return del(pathsToDelete, { force: true });
 });
