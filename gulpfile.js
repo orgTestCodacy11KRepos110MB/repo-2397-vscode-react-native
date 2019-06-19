@@ -72,18 +72,36 @@ function build(failOnError, buildNls) {
     const preprocessorContext = isProd ? { PROD: true } : { DEBUG: true };
     let gotError = false;
     log(`Building with preprocessor context: ${JSON.stringify(preprocessorContext)}`);
-    const tsResult = tsProject.src()
-        .pipe(preprocess({ context: preprocessorContext })) //To set environment variables in-line
-        .pipe(sourcemaps.init())
-        .pipe(tsProject());
+    // const tsResult = tsProject.src()
+    //     .pipe(preprocess({ context: preprocessorContext })) //To set environment variables in-line
+    //     .pipe(sourcemaps.init())
+    //     .pipe(tsProject());
 
-    return tsResult.js
-        .pipe(buildNls ? nls.rewriteLocalizeCalls() : es.through())
-        .pipe(buildNls ? nls.createAdditionalLanguageFiles(defaultLanguages, "i18n", ".") : es.through())
-        .pipe(buildNls ? nls.bundleMetaDataFiles("vsmobile.vscode-react-native", ".") : es.through())
-        .pipe(buildNls ? nls.bundleLanguageFiles() : es.through())
-        .pipe(sourcemaps.write(".", { includeContent: false, sourceRoot: "." }))
-        .pipe(gulp.dest((file) => file.cwd))
+    gulp.src(["./src/extension/rn-extension.ts"])
+        // .pipe(buildNls ? nls.rewriteLocalizeCalls() : es.through())
+        .pipe(webpack(require("./webpack.config.js")))
+        // .pipe(buildNls ? nls.createAdditionalLanguageFiles(defaultLanguages, "i18n", ".") : es.through())
+        // .pipe(buildNls ? nls.bundleMetaDataFiles("vsmobile.vscode-react-native", ".") : es.through())
+        // .pipe(buildNls ? nls.bundleLanguageFiles() : es.through())
+        .pipe(sourcemaps.write("dist", { includeContent: false, sourceRoot: "." }))
+        .pipe(gulp.dest("dist"))
+        .once("error", () => {
+            gotError = true;
+        })
+        .once("finish", () => {
+            if (failOnError && gotError) {
+                process.exit(1);
+            }
+        });
+
+        return gulp.src(["./src/debugger/reactNativeDebugEntryPoint.ts"])
+        // .pipe(buildNls ? nls.rewriteLocalizeCalls() : es.through())
+        .pipe(webpack(require("./webpack.configDebug.js")))
+        // .pipe(buildNls ? nls.createAdditionalLanguageFiles(defaultLanguages, "i18n", ".") : es.through())
+        // .pipe(buildNls ? nls.bundleMetaDataFiles("vsmobile.vscode-react-native", ".") : es.through())
+        // .pipe(buildNls ? nls.bundleLanguageFiles() : es.through())
+        .pipe(sourcemaps.write("dist", { includeContent: false, sourceRoot: "." }))
+        .pipe(gulp.dest("dist"))
         .once("error", () => {
             gotError = true;
         })
@@ -156,24 +174,26 @@ gulp.task("tslint", () => {
 gulp.task("build", gulp.series("check-imports", "check-copyright", "tslint", function runBuild(done) {
     build(true, true)
         .once("finish", () => {
-            gulp.src("src/extension/rn-extension.js")
-                .pipe(webpack(require("./webpack.config.js")))
-                .pipe(gulp.dest('dist/'))
-                .once("end", () => {
-                    done();
-                });
+            // gulp.src("src/extension/rn-extension.ts")
+            //     .pipe(webpack(require("./webpack.config.js")))
+            //     .pipe(gulp.dest('dist/'))
+            //     .once("end", () => {
+            //         done();
+            //     });
+            done();
         });
 }));
 
 gulp.task("build-dev", gulp.series("check-imports", "check-copyright", function runBuild(done) {
     build(false, false)
         .once("finish", () => {
-            gulp.src("src/extension/rn-extension.js")
-                .pipe(webpack(require("./webpack.config.js")))
-                .pipe(gulp.dest('dist/'))
-                .once("end", () => {
-                    done();
-                });
+            // gulp.src("src/extension/rn-extension.js")
+            //     .pipe(webpack(require("./webpack.config.js")))
+            //     .pipe(gulp.dest('dist/'))
+            //     .once("end", () => {
+            //         done();
+            //     });
+            done();
         });
 }));
 

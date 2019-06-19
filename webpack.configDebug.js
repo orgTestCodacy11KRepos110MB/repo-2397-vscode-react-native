@@ -12,8 +12,7 @@ const config = {
   target: 'node', // vscode extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
   mode: 'development',
   entry: {
-    'main': './src/extension/rn-extension.ts',
-    // 'reactNativeDebugEntryPoint': './src/debugger/reactNativeDebugEntryPoint.ts'
+    'reactNativeDebugEntryPoint': './src/debugger/reactNativeDebugEntryPoint.ts'
   },
   output: {
     // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
@@ -24,18 +23,17 @@ const config = {
   },
   devtool: 'source-map',
   externals: {
-    vscode: 'commonjs vscode',
-    xdl: 'commonjs xdl',
-    ws: 'commonjs ws',
+    // xdl: 'commonjs xdl',
+    // ws: 'commonjs ws',
     'vscode-extension-telemetry': 'commonjs vscode-extension-telemetry',
-    'vscode-nls': 'commonjs vscode-nls',
+    // 'vscode-nls': 'commonjs vscode-nls',
     // 'flatten-source-map': 'commonjs flatten-source-map',
     // 'vscode-debugadapter': 'commonjs vscode-debugadapter',
     // 'vscode-debugprotocol': 'commonjs vscode-debugprotocol',
     // 'vscode-chrome-debug-core': 'commonjs vscode-chrome-debug-core'
   },
   resolve: {
-    mainFields: ['module', 'main'],
+    // mainFields: ['module', 'main'],
     extensions: ['.ts', '.js'] // support ts-files and js-files
   },
   node: {
