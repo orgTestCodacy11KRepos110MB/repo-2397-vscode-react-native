@@ -88,10 +88,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.4.tgz#46832183115c904410c275e34cf9403992999c32"
   integrity sha512-j8YL2C0fXq7IONwl/Ud5Kt0PeXw22zGERt+HSSnwbKOJVsAGkEz3sFCYwaF9IOuoG1HOtE0vKCj6sXF7Q0+Vaw==
 
-"@types/node@8.0.33":
-  version "8.0.33"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.33.tgz#1126e94374014e54478092830704f6ea89df04cd"
-  integrity sha512-vmCdO8Bm1ExT+FWfC9sd9r4jwqM7o97gGy2WBshkkXbf/2nLAJQUrZfIhw27yVOtLUev6kSZc4cav/46KbDd8A==
+"@types/node@^10.14.10":
+  version "10.14.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.10.tgz#e491484c6060af8d461e12ec81c0da8a3282b8de"
+  integrity sha512-V8wj+w2YMNvGuhgl/MA5fmTxgjmVHVoasfIaxMMZJV6Y8Kk+Ydpi1z2whoShDCJ2BuNVoqH/h1hrygnBxkrw/Q==
 
 "@types/node@^8.0.24":
   version "8.10.49"
@@ -1797,6 +1797,11 @@ mocha@^6.1.2:
     yargs-parser "13.0.0"
     yargs-unparser "1.5.0"
 
+mout@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/mout/-/mout-1.1.0.tgz#0b29d41e6a80fa9e2d4a5be9d602e1d9d02177f6"
+  integrity sha512-XsP0vf4As6BfqglxZqbqQ8SR6KQot2AgxvR0gG+WtUkf90vUXchMOZQtPf/Hml1rEffJupqL/tIrU6EYhsUQjw==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -1896,6 +1901,13 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
+
+nyks@^3.16.0:
+  version "3.19.2"
+  resolved "https://registry.yarnpkg.com/nyks/-/nyks-3.19.2.tgz#13b0c3c1b4e49b397a27d87e8a244780718e9f6d"
+  integrity sha1-E7DDwbTkmzl6J9h+iiRHgHGOn20=
+  dependencies:
+    mout "^1.0.0"
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -2432,6 +2444,14 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, 
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+
+screen-capture-recorder@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/screen-capture-recorder/-/screen-capture-recorder-1.5.0.tgz#d49de7a134d2471013bf3a2bd8a7e5b3d883a2af"
+  integrity sha1-1J3noTTSRxATvzor2Kfls9iDoq8=
+  dependencies:
+    mout "^1.0.0"
+    nyks "^3.16.0"
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.7.0:
   version "5.7.0"

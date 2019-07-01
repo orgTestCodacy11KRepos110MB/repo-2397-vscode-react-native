@@ -13,6 +13,7 @@ import { VSCodeHelper } from "./helpers/vsCodeHelper";
 import { SetupEnvironmentHelper } from "./helpers/setupEnvironmentHelper";
 import { TestConfigurator } from "./helpers/configHelper";
 import { sleep, findFile } from "./helpers/utilities";
+import { DesktopRecorder } from "./helpers/desktopRecorder";
 
 async function fail(errorMessage) {
     console.error(errorMessage);
@@ -154,7 +155,9 @@ function createApp(quality: Quality, workspaceOrFolder: string): SpectronApplica
 }
 
 const testParams = TestConfigurator.parseTestArguments();
+const desktopRecorder = new DesktopRecorder();
 async function setup(): Promise<void> {
+
     console.log("*** Test VS Code directory:", testVSCodeDirectory);
     console.log("*** Preparing smoke tests setup...");
     console.log(`*** Setting up configuration variables`);
@@ -246,9 +249,15 @@ describe("Extension smoke tests", () => {
             }
         }
         AppiumHelper.terminateAppium();
+        if (testParams.VideoRecord) {
+            desktopRecorder.stopRecord();
+        }
     });
     if (process.platform === "darwin") {
         const noSelectArgs = !testParams.RunAndroidTests && !testParams.RunIosTests && !testParams.RunBasicTests;
+        if (testParams.VideoRecord) {
+            desktopRecorder.startRecord(0,0,1920,1080, artifactsPath);
+        }
         if (noSelectArgs) {
             console.log("*** Android and iOS tests will be run");
             setupReactNativeDebugAndroidTests();

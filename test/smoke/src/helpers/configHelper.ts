@@ -10,6 +10,7 @@ export interface TestRunArguments {
     RunBasicTests: boolean;
     SkipSetup: boolean;
     DontDeleteVSIX: boolean;
+    VideoRecord: boolean;
 }
 
 export interface TestEnvVariables {
@@ -92,6 +93,7 @@ export class TestConfigurator {
             RunBasicTests: process.argv.includes("--basic-only"),
             SkipSetup: process.argv.includes("--skip-setup"),
             DontDeleteVSIX: process.argv.includes("--dont-delete-vsix"),
+            VideoRecord: process.argv.includes("--video-record"),
         };
     }
 }
