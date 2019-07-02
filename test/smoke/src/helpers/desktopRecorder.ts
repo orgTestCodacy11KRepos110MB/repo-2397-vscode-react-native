@@ -41,7 +41,7 @@ export class DesktopRecorder {
         Framerate: 30,
         VideoSize: "1920x1080",
         Output: path.join(artifactsPath, "testsRecord.avi"),
-        Input: process.platform === "win32" ? "desktop": process.platform === "darwin" ? ":0" : ":10",
+        Input: process.platform === "win32" ? "desktop": process.platform === "darwin" ? "0:0" : ":10",
         PixelFormat: "yuv420p",
     }
 
