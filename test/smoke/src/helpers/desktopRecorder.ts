@@ -68,6 +68,7 @@ export class DesktopRecorder {
     public stopRecord() {
         if (this.recorderProcess) {
             kill(this.recorderProcess.pid, "SIGINT");
+            this.recorderProcess = null;
         }
     }
 }

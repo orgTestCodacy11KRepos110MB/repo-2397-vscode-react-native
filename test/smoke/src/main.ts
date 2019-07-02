@@ -253,12 +253,12 @@ describe("Extension smoke tests", () => {
             desktopRecorder.stopRecord();
         }
     });
+    if (testParams.VideoRecord) {
+        console.log(`*** --video-record parameter is set, test will be recorded and saved in ${artifactsPath}`);
+        desktopRecorder.startRecord();
+    }
     if (process.platform === "darwin") {
         const noSelectArgs = !testParams.RunAndroidTests && !testParams.RunIosTests && !testParams.RunBasicTests;
-        if (testParams.VideoRecord) {
-            console.log(`*** --video-record parameter is set, test will be recorded and saved in ${artifactsPath}`);
-            desktopRecorder.startRecord();
-        }
         if (noSelectArgs) {
             console.log("*** Android and iOS tests will be run");
             setupReactNativeDebugAndroidTests();
