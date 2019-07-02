@@ -256,7 +256,8 @@ describe("Extension smoke tests", () => {
     if (process.platform === "darwin") {
         const noSelectArgs = !testParams.RunAndroidTests && !testParams.RunIosTests && !testParams.RunBasicTests;
         if (testParams.VideoRecord) {
-            desktopRecorder.startRecord(0,0,1920,1080, artifactsPath);
+            console.log(`*** --video-record parameter is set, test will be recorded and saved in ${artifactsPath}`);
+            desktopRecorder.startRecord();
         }
         if (noSelectArgs) {
             console.log("*** Android and iOS tests will be run");
