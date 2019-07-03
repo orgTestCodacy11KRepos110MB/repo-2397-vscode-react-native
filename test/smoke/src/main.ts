@@ -233,6 +233,10 @@ before(async function () {
     SetupEnvironmentHelper.cleanUp(path.join(testVSCodeDirectory, ".."), artifactsPath, [RNworkspacePath, ExpoWorkspacePath, pureRNWorkspacePath], SetupEnvironmentHelper.iOSExpoAppsCacheDir);
     try {
         await setup();
+        if (testParams.VideoRecord) {
+            console.log(`*** --video-record parameter is set, test will be recorded and saved in ${artifactsPath}`);
+            desktopRecorder.startRecord();
+        }
     } catch (err) {
         await fail(err);
     }
@@ -253,10 +257,7 @@ describe("Extension smoke tests", () => {
             desktopRecorder.stopRecord();
         }
     });
-    if (testParams.VideoRecord) {
-        console.log(`*** --video-record parameter is set, test will be recorded and saved in ${artifactsPath}`);
-        desktopRecorder.startRecord();
-    }
+
     if (process.platform === "darwin") {
         const noSelectArgs = !testParams.RunAndroidTests && !testParams.RunIosTests && !testParams.RunBasicTests;
         if (noSelectArgs) {
@@ -281,6 +282,5 @@ describe("Extension smoke tests", () => {
         } else {
             setupReactNativeDebugAndroidTests();
         }
-
     }
 });
