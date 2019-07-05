@@ -7,11 +7,11 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}"
+                "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: build"
         },
@@ -21,11 +21,11 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}"
+                "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: quick-build"
         },
@@ -33,7 +33,7 @@
             "name": "Quick Debug Debugger",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/src/debugger/reactNativeDebugEntryPoint.ts",
+            "program": "${workspaceFolder}/src/debugger/reactNativeDebugEntryPoint.ts",
             "runtimeArgs": [
                 "--harmony"
             ],
@@ -43,7 +43,7 @@
             ], // Use "debugServer": "4712", on launch.json of the instance to debug
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: quick-build"
         },
@@ -51,7 +51,7 @@
             "name": "Debug Debugger",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/src/debugger/reactNativeDebugEntryPoint.ts",
+            "program": "${workspaceFolder}/src/debugger/reactNativeDebugEntryPoint.ts",
             "runtimeArgs": [
                 "--harmony"
             ],
@@ -61,13 +61,13 @@
             ], // Use "debugServer": "4712", on launch.json of the instance to debug
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: build"
         },
         {
             "name": "Sample - Android App",
-            "program": "${workspaceRoot}/SampleApplication/.vscode/launchReactNative.js",
+            "program": "${workspaceFolder}/SampleApplication/.vscode/launchReactNative.js",
             "type": "node",
             "request": "launch",
             "args": [
@@ -78,12 +78,12 @@
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/SampleApplication/.vscode/.react/**/*.js"
+                "${workspaceFolder}/SampleApplication/.vscode/.react/**/*.js"
             ]
         },
         {
             "name": "Sample - iOS App",
-            "program": "${workspaceRoot}/SampleApplication/.vscode/launchReactNative.js",
+            "program": "${workspaceFolder}/SampleApplication/.vscode/launchReactNative.js",
             "type": "node",
             "request": "launch",
             "args": [
@@ -94,12 +94,12 @@
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/SampleApplication/.vscode/.react/**/*.js"
+                "${workspaceFolder}/SampleApplication/.vscode/.react/**/*.js"
             ]
         },
         {
             "name": "Sample - Android Extension",
-            "program": "${workspaceRoot}/SampleApplication/.vscode/launchReactNative.js",
+            "program": "${workspaceFolder}/SampleApplication/.vscode/launchReactNative.js",
             "type": "node",
             "request": "launch",
             "args": [
@@ -110,12 +110,12 @@
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ]
         },
         {
             "name": "Sample - iOS Extension",
-            "program": "${workspaceRoot}/SampleApplication/.vscode/launchReactNative.js",
+            "program": "${workspaceFolder}/SampleApplication/.vscode/launchReactNative.js",
             "type": "node",
             "request": "launch",
             "args": [
@@ -126,7 +126,7 @@
             ],
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ]
         },
         {
@@ -135,13 +135,13 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}",
-                "--extensionTestsPath=${workspaceRoot}/test"
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/test"
             ],
             "stopOnEntry": false,
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: build"
         },
@@ -152,13 +152,13 @@
             "runtimeExecutable": "${execPath}",
             "args": [
                 "--locale=ru",
-                "--extensionDevelopmentPath=${workspaceRoot}",
-                "--extensionTestsPath=${workspaceRoot}/test/localization"
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/test/localization"
             ],
             "stopOnEntry": false,
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "preLaunchTask": "gulp: build"
         },
@@ -167,7 +167,7 @@
             "type": "node",
             "protocol": "inspector",
             "request": "launch",
-            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "stopOnEntry": false,
             // Command line arguments passed to the program.
             "args": [
@@ -177,13 +177,13 @@
                 "test/debugger/**/*.test.js",
                 "test/common/**/*.test.js"
             ],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceFolder}",
             "runtimeExecutable": null,
             "env": {
                 "NODE_ENV": "development"
             },
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "gulp: quick-build"
@@ -199,7 +199,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
@@ -218,7 +218,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
@@ -237,7 +237,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
@@ -256,7 +256,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
@@ -276,7 +276,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
@@ -296,7 +296,7 @@
             "timeout": 240000,
             "stopOnEntry": false,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceFolder}/src/**/*.js"
             ],
             "sourceMaps": true,
             "preLaunchTask": "Build Smoke Tests"
