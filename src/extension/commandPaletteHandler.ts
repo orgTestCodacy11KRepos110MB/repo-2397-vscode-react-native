@@ -23,6 +23,8 @@ import {HostPlatform} from "../common/hostPlatform";
 import * as nls from "vscode-nls";
 import { ErrorHelper } from "../common/error/errorHelper";
 import { InternalErrorCode } from "../common/error/internalErrorCode";
+import * as fs from "fs";
+import * as path from "path";
 const localize = nls.loadMessageBundle();
 
 interface IReactNativeStuff {
@@ -368,6 +370,10 @@ export class CommandPaletteHandler {
         });
     }
 
+    private static checkNodeModules(projectFolder: string) {
+        return fs.existsSync(path.join(projectFolder, "node_modules"));
+    }
+
     private static selectProject(): Q.Promise<IReactNativeProject> {
         let keys = Object.keys(this.projectsCache);
         if (keys.length > 1) {
@@ -376,6 +382,7 @@ export class CommandPaletteHandler {
                     .then((selected) => {
                         if (selected) {
                             this.logger.debug(`Command palette: selected project ${selected}`);
+                            this.checkNodeModules("aa");
                             resolve(this.projectsCache[selected]);
                         }
                     }, reject);

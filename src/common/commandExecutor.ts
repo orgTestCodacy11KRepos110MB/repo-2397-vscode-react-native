@@ -10,6 +10,7 @@ import {ISpawnResult} from "./node/childProcess";
 import {HostPlatform, HostPlatformId} from "./hostPlatform";
 import {ErrorHelper} from "./error/errorHelper";
 import {InternalErrorCode} from "./error/internalErrorCode";
+import * as path from "path";
 import * as nls from "vscode-nls";
 const localize = nls.loadMessageBundle();
 
@@ -93,7 +94,20 @@ export class CommandExecutor {
 
         result.stdout.on("end", () => {
             const match = output.match(/react-native: ([\d\.]+)/);
-            deferred.resolve(match && match[1] || "");
+            let version = match && match[1];
+            if (version) {
+                deferred.resolve(version);
+            } else {
+                try {
+                    const packageJson = require(path.join(this.currentWorkingDirectory, "package.json"));
+                    version = packageJson.dependencies && packageJson.dependencies["react-native"];
+                    deferred.resolve(version || "");
+                } catch (e) {
+                    deferred.resolve("");
+                }
+
+            }
+
         });
 
         return deferred.promise;
