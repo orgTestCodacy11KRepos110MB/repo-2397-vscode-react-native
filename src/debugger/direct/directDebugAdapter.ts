@@ -5,16 +5,13 @@ import * as path from "path";
 import { ProjectVersionHelper } from "../../common/projectVersionHelper";
 import { ReactNativeProjectHelper } from "../../common/reactNativeProjectHelper";
 import { ErrorHelper } from "../../common/error/errorHelper";
-import { getExtensionVersion } from "../../common/extensionHelper";
 import { ILaunchArgs } from "../../extension/launchArgs";
-import { getProjectRoot } from "../nodeDebugWrapper";
-import { Telemetry } from "../../common/telemetry";
+import { getProjectRoot } from "../rnDebugSession";
 import { OutputEvent, Logger } from "vscode-debugadapter";
 import { TelemetryHelper } from "../../common/telemetryHelper";
-import { RemoteTelemetryReporter } from "../../common/telemetryReporters";
+import { AppLauncher } from "../../extension/appLauncher";
 import { ChromeDebugAdapter, ChromeDebugSession, IChromeDebugSessionOpts, IAttachRequestArgs, logger, IOnPausedResult, Crdp } from "vscode-chrome-debug-core";
 import { InternalErrorCode } from "../../common/error/internalErrorCode";
-import { RemoteExtension } from "../../common/remoteExtension";
 import { DebugProtocol } from "vscode-debugprotocol";
 import { getLoggingDirectory } from "../../extension/log/LogHelper";
 import * as nls from "vscode-nls";
@@ -42,8 +39,7 @@ export class DirectDebugAdapter extends ChromeDebugAdapter {
     private static HERMES_NATIVE_FUNCTION_SCRIPT_ID: string = "4294967295";
 
     private outputLogger: (message: string, error?: boolean | string) => void;
-    private projectRootPath: string;
-    private remoteExtension: RemoteExtension;
+    private appLauncher: AppLauncher;
     private isSettingsInitialized: boolean; // used to prevent parameters reinitialization when attach is called from launch function
     private previousAttachArgs: IDirectAttachRequestArgs;
 
@@ -91,9 +87,9 @@ export class DirectDebugAdapter extends ChromeDebugAdapter {
                             extProps = TelemetryHelper.addPropertyToTelemetryProperties(versions.reactNativeWindowsVersion, "reactNativeWindowsVersion", extProps);
                         }
                         return TelemetryHelper.generate("launch", extProps, (generator) => {
-                            return this.remoteExtension.launch({ "arguments": launchArgs })
+                            return this.appLauncher.launch(launchArgs)
                                 .then(() => {
-                                    return this.remoteExtension.getPackagerPort(launchArgs.cwd);
+                                    return this.appLauncher.getPackagerPort(launchArgs.cwd);
                                 })
                                 .then((packagerPort: number) => {
                                     launchArgs.port = launchArgs.port || packagerPort;
@@ -136,22 +132,20 @@ export class DirectDebugAdapter extends ChromeDebugAdapter {
                             extProps = TelemetryHelper.addPropertyToTelemetryProperties(versions.reactNativeWindowsVersion, "reactNativeWindowsVersion", extProps);
                         }
                         return TelemetryHelper.generate("attach", extProps, (generator) => {
-                            return this.remoteExtension.getPackagerPort(attachArgs.cwd)
-                                .then((packagerPort: number) => {
-                                    attachArgs.port = attachArgs.port || packagerPort;
-                                    this.outputLogger(`Connecting to ${attachArgs.port} port`);
-                                    const attachArguments = Object.assign({}, attachArgs, {
-                                        address: "localhost",
-                                        port: attachArgs.port,
-                                        restart: true,
-                                        request: "attach",
-                                        remoteRoot: undefined,
-                                        localRoot: undefined,
-                                    });
-                                    super.attach(attachArguments).then(() => {
-                                        this.outputLogger("The debugger attached successfully");
-                                        resolve();
-                                    }).catch((e) => reject(e));
+                            attachArgs.port = attachArgs.port || this.appLauncher.getPackagerPort(attachArgs.cwd);
+                            this.outputLogger(`Connecting to ${attachArgs.port} port`);
+                            const attachArguments = Object.assign({}, attachArgs, {
+                                address: "localhost",
+                                port: attachArgs.port,
+                                restart: true,
+                                request: "attach",
+                                remoteRoot: undefined,
+                                localRoot: undefined,
+                            });
+                            return super.attach(attachArguments)
+                                .then(() => {
+                                    this.outputLogger("The debugger attached successfully");
+                                    resolve();
                                 }).catch((e) => reject(e));
                         })
                         .catch((err) => {
@@ -198,22 +192,16 @@ export class DirectDebugAdapter extends ChromeDebugAdapter {
 
             const projectRootPath = getProjectRoot(args);
             return ReactNativeProjectHelper.isReactNativeProject(projectRootPath)
-            .then((result) => {
-                if (!result) {
-                    throw ErrorHelper.getInternalError(InternalErrorCode.NotInReactNativeFolderError);
-                }
-                this.projectRootPath = projectRootPath;
-                this.remoteExtension = RemoteExtension.atProjectRootPath(this.projectRootPath);
-                const version = getExtensionVersion();
+                .then((result) => {
+                    if (!result) {
+                        throw ErrorHelper.getInternalError(InternalErrorCode.NotInReactNativeFolderError);
+                    }
 
-                // Start to send telemetry
-                (this._session as any).getTelemetryReporter().reassignTo(new RemoteTelemetryReporter(
-                    "react-native-tools", version, Telemetry.APPINSIGHTS_INSTRUMENTATIONKEY, this.projectRootPath));
+                    this.appLauncher = AppLauncher.getAppLauncherByProjectRootPath(projectRootPath);
+                    this.isSettingsInitialized = true;
 
-                this.isSettingsInitialized = true;
-
-                return void 0;
-            });
+                    return void 0;
+                });
         } else {
             return Q.resolve<void>(void 0);
         }
@@ -221,9 +209,13 @@ export class DirectDebugAdapter extends ChromeDebugAdapter {
 
     private cleanUp() {
         if (this.previousAttachArgs.platform === "android") {
-            this.remoteExtension.stopMonitoringLogcat()
-                .catch(reason => logger.warn(localize("CouldNotStopMonitoringLogcat", "Couldn't stop monitoring logcat: {0}", reason.message || reason)))
-                .finally(() => super.disconnect({terminateDebuggee: true}));
+            try {
+                this.appLauncher.stopMonitoringLogCat();
+            } catch (err) {
+                logger.warn(localize("CouldNotStopMonitoringLogcat", "Couldn't stop monitoring logcat: {0}", err.message || err));
+            } finally {
+                super.disconnect({terminateDebuggee: true});
+            }
         }
     }
 
