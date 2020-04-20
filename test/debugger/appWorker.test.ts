@@ -21,6 +21,7 @@ suite("appWorker", function () {
         suite("SandboxedAppWorker", function () {
             const originalSpawn = child_process.spawn;
             const sourcesStoragePath = path.resolve(__dirname, "assets");
+            const projectRoot = path.resolve(__dirname, "..", "..");
 
             // Inject 5 sec delay before shutting down to worker to give tests some time to execute
             const WORKER_DELAY_SHUTDOWN = `setTimeout(() => {console.log("Shutting down")}, 5000)`;
@@ -32,9 +33,8 @@ suite("appWorker", function () {
             function workerWithScript(scriptBody: string): ForkedAppWorker {
                 const wrappedBody = [MultipleLifetimesAppWorker.WORKER_BOOTSTRAP,
                     scriptBody, MultipleLifetimesAppWorker.WORKER_DONE, WORKER_DELAY_SHUTDOWN].join("\n");
-
                 spawnStub = sinon.stub(child_process, "spawn", () =>
-                    originalSpawn("node", ["-e", wrappedBody], { stdio: ["pipe", "pipe", "pipe", "ipc"] }));
+                    originalSpawn("node", ["-e", wrappedBody], { stdio: ["pipe", "pipe", "pipe", "ipc"], cwd: projectRoot}));
 
                 testWorker = new ForkedAppWorker("localhost", packagerPort, sourcesStoragePath, "", postReplyFunction);
                 return testWorker;
