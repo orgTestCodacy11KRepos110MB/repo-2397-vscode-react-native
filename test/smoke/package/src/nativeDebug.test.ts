@@ -45,9 +45,12 @@ export function startReactNativeTests(workspace: string, testParameters: TestRun
                 this.timeout(debugAndroidTestTime);
                 app = await vscodeManager.runVSCode(workspace, "Android RN app Debug test");
                 await app.workbench.quickaccess.openFile("App.js");
+                await sleep(1);
                 await app.workbench.editors.scrollTop();
+                await sleep(1);
                 SmokeTestLogger.info("Android Debug test: App.js file is opened");
                 await app.workbench.debug.setBreakpointOnLine(RNSetBreakpointOnLine);
+                await sleep(1);
                 SmokeTestLogger.info(
                     `Android Debug test: Breakpoint is set on line ${RNSetBreakpointOnLine}`,
                 );
@@ -56,13 +59,17 @@ export function startReactNativeTests(workspace: string, testParameters: TestRun
                 );
                 SmokeTestLogger.info("Android Debug test: Starting debugging");
                 await app.workbench.quickaccess.runDebugScenario(AndroidRNDebugConfigName);
+                await sleep(1);
                 await androidEmulatorManager.waitUntilAppIsInstalled(RN_APP_PACKAGE_NAME);
+                await sleep(1);
                 await app.workbench.debug.waitForDebuggingToStart();
+                await sleep(1);
                 SmokeTestLogger.info("Android Debug test: Debugging started");
                 await app.workbench.debug.waitForStackFrame(
                     sf => sf.name === "App.js" && sf.lineNumber === RNSetBreakpointOnLine,
                     `looking for App.js and line ${RNSetBreakpointOnLine}`,
                 );
+                await sleep(1);
                 SmokeTestLogger.info("Android Debug test: Stack frame found");
                 await app.workbench.debug.stepOver();
                 // await for our debug string renders in debug console
