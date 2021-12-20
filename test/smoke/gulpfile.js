@@ -119,8 +119,8 @@ gulp.task(
                         console.log(`Couldn't fin "for (let dir of dirs) {"`);
                     }
 
-                    fs.unlinkSync(path.join(CODE_ROOT, "yarn.lock"));
-                    fs.unlinkSync(path.join(CODE_ROOT, "build", "yarn.lock"));
+                    // fs.unlinkSync(path.join(CODE_ROOT, "yarn.lock"));
+                    // fs.unlinkSync(path.join(CODE_ROOT, "build", "yarn.lock"));
                     done();
                 });
             });
