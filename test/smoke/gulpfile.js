@@ -5,6 +5,7 @@ const gulp = require("gulp");
 const cp = require("child_process");
 const path = require("path");
 const ncp = require("ncp");
+const fs = require("fs");
 const rimraf = require("rimraf");
 
 const CODE_REPO_VERSION = "1.61.0";
@@ -96,6 +97,28 @@ gulp.task(
                             `Couldn't copy smoke tests from ${SMOKE_TESTS_AUTOMATION_FOLDER} package into ${CODE_AUTOMATION_FOLDER}: ${err}`,
                         );
                     }
+
+                    let postinstalljs = fs
+                        .readFileSync(path.join(CODE_ROOT, "build", "npm", "postinstall.js"))
+                        .toString();
+
+                    let index = postinstalljs.indexOf("for (let dir of dirs) {");
+
+                    if (index) {
+                        postinstalljs = [
+                            postinstalljs.slice(0, index - 1),
+                            "console.log(process.env);\n",
+                            postinstalljs.slice(index - 1),
+                        ].join("");
+
+                        fs.writeFileSync(
+                            path.join(CODE_ROOT, "build", "npm", "postinstall.js"),
+                            postinstalljs,
+                        );
+                    } else {
+                        console.log(`Couldn't fin "for (let dir of dirs) {"`);
+                    }
+
                     done();
                 });
             });
