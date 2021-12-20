@@ -57,6 +57,9 @@ steps:
     displayName: "npm install --global windows-build-tools"
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
+  - bash: npm config set scripts-prepend-node-path true
+    displayName: "npm config set scripts-prepend-node-path true"
+
   - bash: |
       export MOCHA_FILE=./ReactNativeSmokeTests.xml
       export BASIC_ONLY=""
