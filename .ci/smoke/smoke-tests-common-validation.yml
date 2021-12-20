@@ -47,7 +47,7 @@ steps:
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 
   - bash: |
-      npm install -g yarn react-native-cli
+      npm install -g yarn@1.21.1 react-native-cli
       npm install -g appium@$(appiumVersion) --force
       npm install -g expo-cli@$(expoCLIVersion)
       npm install -g @expo/ngrok@^4.1.0
@@ -56,9 +56,6 @@ steps:
   - bash: npm install --global windows-build-tools
     displayName: "npm install --global windows-build-tools"
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
-
-  - bash: npm config set scripts-prepend-node-path true
-    displayName: "npm config set scripts-prepend-node-path true"
 
   - bash: |
       export MOCHA_FILE=./ReactNativeSmokeTests.xml
