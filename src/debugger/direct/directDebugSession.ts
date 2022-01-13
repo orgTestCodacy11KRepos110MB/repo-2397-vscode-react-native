@@ -42,7 +42,7 @@ export class DirectDebugSession extends DebugSessionBase {
         });
     }
 
-    private async onDisconnectMessage(response) {
+    private async onDisconnectMessage(response: any) {
         console.log("onDisconnectMessageonDisconnectMessageonDisconnectMessageonDisconnectMessage");
 
         // void vscode.window.showWarningMessage(
