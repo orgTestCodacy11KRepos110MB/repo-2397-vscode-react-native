@@ -43,6 +43,8 @@ export class DirectDebugSession extends DebugSessionBase {
     }
 
     private async onDisconnectMessage() {
+        console.log('onDisconnectMessageonDisconnectMessageonDisconnectMessage')
+
         void vscode.window.showWarningMessage(
             localize(
                 "AnotherConnectionToDebuggee",

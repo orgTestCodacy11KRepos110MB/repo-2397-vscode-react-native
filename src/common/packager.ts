@@ -398,9 +398,9 @@ export class Packager {
                 }
             };
 
-            this.websocketServer.addEventListener("message", resolveHandler);
             this.websocketServer.addEventListener("error", reject);
             this.websocketServer.addEventListener("close", reject);
+            this.websocketServer.addEventListener("message", resolveHandler);
         });
     }
 
