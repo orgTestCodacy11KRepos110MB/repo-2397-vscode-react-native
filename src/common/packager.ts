@@ -384,11 +384,14 @@ export class Packager {
                     !value ||
                     typeof value !== "string"
                 ) {
+                    console.log('returned')
                     return;
                 }
 
                 if (value.includes(message)) {
                     resolve();
+                    console.log('resolved')
+
                     this.websocketServer.removeListener("message", resolveHandler);
                     this.websocketServer.removeListener("error", reject);
                     this.websocketServer.removeListener("close", reject);
