@@ -373,6 +373,10 @@ export class Packager {
 
                 const value = parsed?.data?.[0];
 
+                console.log('valuedsadsadsadsa')
+                console.log(value)
+
+
                 if (
                     arg.level !== parsed.level ||
                     arg.type !== parsed.type ||
