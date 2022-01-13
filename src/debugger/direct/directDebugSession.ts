@@ -42,15 +42,17 @@ export class DirectDebugSession extends DebugSessionBase {
         });
     }
 
-    private async onDisconnectMessage() {
-        console.log('onDisconnectMessageonDisconnectMessageonDisconnectMessage')
+    private async onDisconnectMessage(response) {
+        console.log("onDisconnectMessageonDisconnectMessageonDisconnectMessageonDisconnectMessage");
 
-        void vscode.window.showWarningMessage(
-            localize(
-                "AnotherConnectionToDebuggee",
-                "Debugger disconnected because another connection to target was made",
-            ),
-        );
+        // void vscode.window.showWarningMessage(
+        //     localize(
+        //         "AnotherConnectionToDebuggee",
+        //         "Debugger disconnected because another connection to target was made",
+        //     ),
+        // );
+
+        this.showError(new Error("Test Erorsaroosroad o"), response);
         this.handleTerminateDebugSession(this.session);
     }
 
@@ -226,7 +228,7 @@ export class DirectDebugSession extends DebugSessionBase {
         void this.appLauncher
             .getPackager()
             .forMessage("Already connected:", { type: "client_log", level: "warn", mode: "BRIDGE" })
-            .then(this.onDisconnectMessage.bind(this), () => {});
+            .then(this.onDisconnectMessage.bind(this, response), () => {});
     }
 
     protected async disconnectRequest(
