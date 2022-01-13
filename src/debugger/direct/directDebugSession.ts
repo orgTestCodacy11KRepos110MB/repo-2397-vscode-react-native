@@ -35,9 +35,21 @@ export class DirectDebugSession extends DebugSessionBase {
         this.debuggerEndpointHelper = new DebuggerEndpointHelper();
         this.iOSWKDebugProxyHelper = new IWDPHelper();
 
-        this.onDidTerminateDebugSessionHandler = vscode.debug.onDidTerminateDebugSession(
-            this.handleTerminateDebugSession.bind(this),
+        this.onDidTerminateDebugSessionHandler = vscode.debug.onDidTerminateDebugSession(arg => {
+            console.log("onDidTerminateDebugSessionHandler");
+            console.log(arg);
+            this.handleTerminateDebugSession.bind(this);
+        });
+    }
+
+    private async onDisconnectMessage() {
+        void vscode.window.showWarningMessage(
+            localize(
+                "AnotherConnectionToDebuggee",
+                "Debugger disconnected because another connection to target was made",
+            ),
         );
+        this.handleTerminateDebugSession(this.session);
     }
 
     protected async launchRequest(
@@ -208,6 +220,11 @@ export class DirectDebugSession extends DebugSessionBase {
                 response,
             );
         }
+
+        void this.appLauncher
+            .getPackager()
+            .forMessage("Already connected:", { type: "client_log", level: "warn", mode: "BRIDGE" })
+            .then(this.onDisconnectMessage.bind(this), () => {});
     }
 
     protected async disconnectRequest(

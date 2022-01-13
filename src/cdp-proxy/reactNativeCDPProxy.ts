@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+// eslint-disable-next-line unicorn/filename-case
 import { IncomingMessage } from "http";
 import {
     Connection,
@@ -114,6 +115,19 @@ export class ReactNativeCDPProxy {
             await WebSocketTransport.create(this.browserInspectUri),
         );
 
+        // transport.onMessage(arg => {
+        //     console.log("transport.onMessage");
+        //     console.log(arg);
+        // });
+        // transport.onError(arg => {
+        //     console.log("transport.onError");
+        //     console.log(arg);
+        // });
+        // transport.onEnd(arg => {
+        //     console.log("transport.onEnd");
+        //     console.log(arg);
+        // });
+
         this.applicationTarget.onError(this.onApplicationTargetError.bind(this));
         this.debuggerTarget.onError(this.onDebuggerTargetError.bind(this));
 
@@ -201,7 +215,14 @@ export class ReactNativeCDPProxy {
         this.logger.error("Error on application transport", err);
     }
 
-    private async onApplicationTargetClosed() {
+    private async onApplicationTargetClosed(arg: any) {
+        // #todo>
+        // should terminate debug session if it was created earlier
+        console.log("onApplicationTargetClosed arguments:");
+
+        // eslint-disable-next-line prefer-rest-params
+        console.log(arg);
+
         this.applicationTarget = null;
     }
 
