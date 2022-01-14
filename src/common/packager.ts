@@ -365,21 +365,19 @@ export class Packager {
                 // '{"type":"client_log","level":"warn","data":["Already connected: 1"],"mode":"BRIDGE"}'
                 data: any;
                 type: string;
-                target: WebSocket;
+                level: string;
+                mode: string;
             }) => {
-                const parsed = await Promise.resolve()
-                    .then(() => JSON.parse(handlerArg.data))
-                    .catch(() => ({}));
-
-                const value = parsed?.data?.[0];
+                const value = handlerArg?.data?.[0];
 
                 console.log("valuedsadsadsadsa");
+                console.log(handlerArg);
                 console.log(value);
 
                 if (
-                    arg.level !== parsed.level ||
-                    arg.type !== parsed.type ||
-                    arg.mode !== parsed.mode ||
+                    arg.level !== handlerArg.level ||
+                    arg.type !== handlerArg.type ||
+                    arg.mode !== handlerArg.mode ||
                     !value ||
                     typeof value !== "string"
                 ) {
