@@ -360,15 +360,15 @@ export class Packager {
         }
 
         return new Promise<void>((resolve, reject) => {
-            const resolveHandler = async (handlerArg: {
-                // example data:
-                // '{"type":"client_log","level":"warn","data":["Already connected: 1"],"mode":"BRIDGE"}'
-                data: any;
-                type: string;
-                level: string;
-                mode: string;
-            }) => {
-                const value = handlerArg?.data?.[0];
+            const resolveHandler = async (handlerArg: string) => {
+                const parsed: {
+                    data: any;
+                    type: string;
+                    level: string;
+                    mode: string;
+                } = JSON.parse(handlerArg);
+
+                const value = parsed.data?.[0];
 
                 console.log("valuedsadsadsadsa");
                 console.log(handlerArg);
