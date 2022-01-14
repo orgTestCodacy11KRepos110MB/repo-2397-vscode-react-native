@@ -45,15 +45,10 @@ export class DirectDebugSession extends DebugSessionBase {
     private async onDisconnectMessage(response: any) {
         console.log("onDisconnectMessageonDisconnectMessageonDisconnectMessageonDisconnectMessage");
 
-        // void vscode.window.showWarningMessage(
-        //     localize(
-        //         "AnotherConnectionToDebuggee",
-        //         "Debugger disconnected because another connection to target was made",
-        //     ),
-        // );
-
-        this.showError(new Error("Test Erorsaroosroad o"), response);
-        this.handleTerminateDebugSession(this.session);
+        this.showError(
+            ErrorHelper.getInternalError(InternalErrorCode.AnotherDebuggerConnectedToPackager),
+            response,
+        );
     }
 
     protected async launchRequest(
@@ -264,6 +259,10 @@ export class DirectDebugSession extends DebugSessionBase {
     }
 
     private handleTerminateDebugSession(debugSession: vscode.DebugSession): void {
+        console.log(
+            "handleTerminateDebugSessionhandleTerminateDebugSessionhandleTerminateDebugSession",
+        );
+
         if (
             debugSession.configuration.rnDebugSessionId === this.session.id &&
             debugSession.type === this.pwaNodeSessionName

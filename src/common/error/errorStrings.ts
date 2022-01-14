@@ -219,6 +219,7 @@ export const ERROR_STRINGS = {
         "CannotAttachToPackagerCheckPackagerRunningOnPort",
         "Cannot attach to packager. Are you sure there is a packager and it is running in the port {0}? If your packager is configured to run in another port make sure to add that to the settings.json.",
     ),
+    /* AnotherDebuggerConnectedToApplication */
     [InternalErrorCode.AnotherDebuggerConnectedToPackager]: localize(
         "AnotherDebuggerConnectedToPackager",
         "Another debugger is already connected to packager. Please close it before trying to debug with VSCode.",

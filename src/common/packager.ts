@@ -373,9 +373,8 @@ export class Packager {
 
                 const value = parsed?.data?.[0];
 
-                console.log('valuedsadsadsadsa')
-                console.log(value)
-
+                console.log("valuedsadsadsadsa");
+                console.log(value);
 
                 if (
                     arg.level !== parsed.level ||
@@ -384,13 +383,13 @@ export class Packager {
                     !value ||
                     typeof value !== "string"
                 ) {
-                    console.log('returned')
+                    console.log("returned");
                     return;
                 }
 
                 if (value.includes(message)) {
                     resolve();
-                    console.log('resolved')
+                    console.log("resolved");
 
                     this.websocketServer.removeListener("message", resolveHandler);
                     this.websocketServer.removeListener("error", reject);
@@ -398,9 +397,9 @@ export class Packager {
                 }
             };
 
-            this.websocketServer.addEventListener("error", reject);
-            this.websocketServer.addEventListener("close", reject);
-            this.websocketServer.addEventListener("message", resolveHandler);
+            this.websocketServer.addListener("error", reject);
+            this.websocketServer.addListener("close", reject);
+            this.websocketServer.addListener("message", resolveHandler);
         });
     }
 
