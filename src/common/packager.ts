@@ -375,9 +375,9 @@ export class Packager {
                 console.log(value);
 
                 if (
-                    arg.level !== handlerArg.level ||
-                    arg.type !== handlerArg.type ||
-                    arg.mode !== handlerArg.mode ||
+                    arg.level !== parsed.level ||
+                    arg.type !== parsed.type ||
+                    arg.mode !== parsed.mode ||
                     !value ||
                     typeof value !== "string"
                 ) {
