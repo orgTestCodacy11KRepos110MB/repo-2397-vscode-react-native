@@ -135,6 +135,16 @@ export class DirectDebugSession extends DebugSessionBase {
 
         try {
             await this.initializeSettings(attachArgs);
+
+            void this.appLauncher
+                .getPackager()
+                .forMessage("Already connected:", {
+                    type: "client_log",
+                    level: "warn",
+                    mode: "BRIDGE",
+                })
+                .then(this.onDisconnectMessage.bind(this, response), () => {});
+
             logger.log("Attaching to the application");
             logger.verbose(`Attaching to the application: ${JSON.stringify(attachArgs, null, 2)}`);
 
@@ -219,11 +229,6 @@ export class DirectDebugSession extends DebugSessionBase {
                 response,
             );
         }
-
-        void this.appLauncher
-            .getPackager()
-            .forMessage("Already connected:", { type: "client_log", level: "warn", mode: "BRIDGE" })
-            .then(this.onDisconnectMessage.bind(this, response), () => {});
     }
 
     protected async disconnectRequest(
