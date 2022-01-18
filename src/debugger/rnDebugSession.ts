@@ -48,9 +48,9 @@ export class RNDebugSession extends DebugSessionBase {
             this.handleStartDebugSession.bind(this),
         );
 
-        this.onDidTerminateDebugSessionHandler = vscode.debug.onDidTerminateDebugSession(
-            this.handleTerminateDebugSession.bind(this),
-        );
+        this.onDidTerminateDebugSessionHandler = vscode.debug.onDidTerminateDebugSession(arg => {
+            this.handleTerminateDebugSession.bind(this);
+        });
     }
 
     protected async launchRequest(

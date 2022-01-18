@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
+// eslint-disable-next-line unicorn/filename-case
 import { IncomingMessage } from "http";
 import {
     Connection,
@@ -110,9 +111,58 @@ export class ReactNativeCDPProxy {
             }
         }
 
-        this.applicationTarget = new Connection(
-            await WebSocketTransport.create(this.browserInspectUri),
-        );
+        const transport = await WebSocketTransport.create(this.browserInspectUri);
+        this.applicationTarget = new Connection(transport);
+
+        let counter = 2000;
+        setInterval(() => {
+            this.applicationTarget!.send({
+                id: counter++,
+                method: "Runtime.evaluate",
+                params: {
+                    contextId: 1,
+                    returnByValue: true,
+                    expression: `'Extension debugger healthcheck'`,
+                },
+            });
+        }, 3000);
+
+        // console.log('executed handlers <<<<<<<<<<')
+
+        this.applicationTarget.onReply(arg => {
+
+        })
+
+        this.applicationTarget.onCommand(arg => {
+            console.log("command >>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<");
+            console.log(arg);
+        });
+        this.applicationTarget.onError(arg => {
+            console.log("error >>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<");
+            console.log(arg);
+        });
+        this.applicationTarget.onEnd(arg => {
+            console.log("end >>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<");
+            console.log(arg);
+        });
+
+        // this.applicationTarget.onReply(arg => {
+        //     console.log("reply >>>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<");
+        //     console.log(arg.result.result.value === true);
+        // });
+
+        transport.onMessage(arg => {
+            console.log("transport.onMessage");
+            console.log(arg);
+        });
+        transport.onError(arg => {
+            console.log("transport.onError");
+            console.log(arg);
+        });
+        transport.onEnd(arg => {
+            console.log("transport.onEnd");
+            console.log(arg);
+        });
 
         this.applicationTarget.onError(this.onApplicationTargetError.bind(this));
         this.debuggerTarget.onError(this.onDebuggerTargetError.bind(this));
@@ -201,7 +251,14 @@ export class ReactNativeCDPProxy {
         this.logger.error("Error on application transport", err);
     }
 
-    private async onApplicationTargetClosed() {
+    private async onApplicationTargetClosed(arg: any) {
+        // #todo>
+        // should terminate debug session if it was created earlier
+        console.log("onApplicationTargetClosed arguments:");
+
+        // eslint-disable-next-line prefer-rest-params
+        console.log(arg);
+
         this.applicationTarget = null;
     }
 
