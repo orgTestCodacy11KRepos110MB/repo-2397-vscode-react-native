@@ -40,7 +40,5 @@
         "tools/",
         "test/resources/sampleReactNativeProject",
         "test/smoke/"
-    ],
-    "compileOnSave": false,
-    "buildOnSave":false
+    ]
 }

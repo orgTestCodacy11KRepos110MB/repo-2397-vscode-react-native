@@ -13,7 +13,7 @@
             "when": "$(basename).ts"
         },
         // "**/out": true,
-        "**/*.js.map": true
+        // "**/*.js.map": true
     },
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
