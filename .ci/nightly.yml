@@ -1,6 +1,8 @@
 # Run on a schedule
 trigger: none
 pr: none
+variables:
+- group: Extension PATs
 
 jobs:
   - job: nightly_release
