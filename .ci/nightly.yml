@@ -1,6 +1,10 @@
 # Run on a schedule
 trigger: none
 pr: none
+variables:
+- group: Extension PATs
+- name: publishPAT
+  value: $[variables.extension-publish-vswdbot-PAT]
 
 jobs:
   - job: nightly_release
